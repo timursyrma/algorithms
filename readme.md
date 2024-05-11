@@ -1,3 +1,5 @@
+# Current plan
+
 - Time Complexiety
     - Big O notation
     - Best worst and average case
@@ -31,5 +33,3 @@
     - create, heapify 
     - heapsort
         - prioruty queue
-
-
