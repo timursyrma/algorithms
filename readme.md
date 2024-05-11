@@ -1,0 +1,35 @@
+- Time Complexiety
+    - Big O notation
+    - Best worst and average case
+    - master theorem
+    - space complexiety
+- Insertion Sort
+    - swap edition
+    - insert edition
+    - complexiety
+- merge sort
+    - divide and conquer
+    - recursive
+    - iterative
+    - compexiety
+- quicksort
+    - modifications
+    - complexiety
+- radix sort
+    - stable sort algorithms
+- dynamic data structures
+    - stack (array + linked list)
+    - queue (array + linked list)
+    - dynamic array (?)
+- binary search
+    - lower bound
+    - upper bound
+    - variations
+    - complexiety
+- heap
+    - definition & properties
+    - create, heapify 
+    - heapsort
+        - prioruty queue
+
+
