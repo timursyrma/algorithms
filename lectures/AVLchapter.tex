@@ -82,7 +82,7 @@
 		}
 		child {
 			node [fill=blue!20,circle,draw]{3}
-		}
+		};
 \end{tikzpicture}
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
 	\node [circle,draw] {6}
@@ -91,7 +91,7 @@
 		child {node [fill=blue!20,circle,draw]  {8}
 			child {node [fill=blue!20,circle, draw]  {7}} 
 			child {node [fill=blue!20,circle, draw]  {9}} 
-		}
+		};
 	
 \end{tikzpicture}\par
 $1 \le 2 \le 3$ и $5 \le 6 \le 8,7,9$
@@ -113,7 +113,7 @@ $1 \le 2 \le 3$ и $5 \le 6 \le 8,7,9$
 				child {node [fill=blue!20,circle, draw]  {22}}
 			} 
 			child [missing]
-		}
+		};
 		
 	\end{tikzpicture}
 	\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
@@ -125,7 +125,7 @@ $1 \le 2 \le 3$ и $5 \le 6 \le 8,7,9$
 				child {node [fill=green!20,circle, draw]  {12}}
 			}
 		}
-		child {node [fill=blue!20,circle,draw]  {99}}
+		child {node [fill=blue!20,circle,draw]  {99}};
 		
 	\end{tikzpicture}\par
 \end{example}
