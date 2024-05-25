@@ -1,0 +1,149 @@
+﻿
+
+\section{Кучи в алгоритмах}\label{sec:--}
+
+\subsection{Введение в двоичные кучи}\label{subsec:---2}
+
+\begin{definition}
+    Двоичная куча - двоичное сбалансированное дерево, которое хранится в массиве и строится по 2 правилам:
+    \begin{itemize}
+        \item Для любого $i < \lfloor \large{\frac{heapSize}{2}} \rfloor$ следует  $\, heap[i] \le heap[2\cdot i+1]$ и $heap[i] \le heap[2\cdot i+2]$
+        \item Нижний слой кучи заполняется слева направо, но если он заполнен,
+        то верщина добавляется как ребёнок самой левой вершины нижнего слоя.
+    \end{itemize}
+\end{definition}
+
+\subsection{Операции на двоичной куче}\label{subsec:---3}
+
+\begin{operation}
+    Операция добавления элемента в кучу происходит в несколько этапов:
+    \begin{enumerate}
+        \item Мы вставляем элемент в кучу по второму вышеуказаному правилу.
+        \item Затем выполняем операцию \hyperlink{su}{sift up} для этого элемента.
+    \end{enumerate}
+    Псевдокод:
+    \begin{algorithmic}[0]
+        \Function{add}{value}
+            \State heap[heapSize] $\gets$ value;
+            \State ++heapSize;
+            \State siftUp(heapSize - 1);
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+\begin{operation}
+    Операция удаления минимального элемента из кучи происходит в несколько этапов:
+    \begin{enumerate}
+        \item Мы меняем местами первый и последний элемент в массиве куче.
+        \item Далее уменьшаем размер кучи, тем самым удаляем последний элемент.
+        \item Затем выполняем операцию \hyperlink{sd}{sift down}
+        для этого первого элемента в куче для восстановления свойств кучи.
+    \end{enumerate}
+    Псевдокод:
+    \begin{algorithmic}[0]
+        \Function{removeMin}{\,}
+            \State swap(heap[0], heap[heapSize - 1]);
+            \State --heapSize;
+            \State siftDown(0);
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+\begin{operation}
+    Операция удаления произвольного элемента из кучи происходит в несколько этапов:
+    \begin{enumerate}
+        \item Мы меняем местами i-ый и последний элемент в массиве куче.
+        \item Далее уменьшаем размер кучи, тем самым удаляем последний элемент.
+        \item Затем выполняем операции \hyperlink{sd}{sift down} и \hyperlink{su}{sift up}
+        для i-ого в куче для восстановления свойств кучи.
+    \end{enumerate}
+    Псевдокод:
+    \begin{algorithmic}[0]
+        \Function{removeByIndex}{index}
+            \State swap(heap[index], heap[heapSize - 1]);
+            \State --heapSize;
+            \State siftDown(index);
+            \State siftUp(index);
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+\begin{operation}
+    Построение кучи на произвольном массиве за $O(n)$ происходит в несколько этапов:
+    \begin{enumerate}
+        \item Выполняем цикл от $\large{\frac{heapSize}{2}} $ до нуля.
+        \item На каждой итерации цикла выполянем операцию \hyperlink{sd}{sift down}.
+    \end{enumerate}
+    Псевдокод:
+    \begin{algorithmic}[0]
+        \Function{buildHeap}{\,}
+            \For{$i \gets \large{\frac{heapSize}{2}},\dots,0$}
+                \State siftDown(i);
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+\newpage
+\subsection{Восстановление свойств двоичных кучах}\label{subsec:---4}
+
+\begin{operation}
+    \hypertarget{su}{}
+    Операция sift up в куче нужна,
+    чтобы восстановить указанные в определении свойства кучи для i-ого элемента и всех его предков.
+    \begin{enumerate}
+        \item Мы берём i-ый элемент и проверяем, что его родитель - $\frac{i - 1}{2}$ элемент меньше его.
+        Если это так, то алгоритм прекращается. Либо, если $i = 0$, то в таком случаем алгоритм также прекращается,
+        иначе переходим к пункту 2.
+        \item Если условие не выполнилось, то меняем местами значения $heap[i]$ и $heap[\frac{i - 1}{2}]$.
+        Затем повторяем 1 пункт для $\frac{i - 1}{2}$ элемента.
+    \end{enumerate}
+    Псевдокод:
+    \begin{algorithmic}[0]
+        \Function{siftUp}{childIndex}
+            \If{childIndex == 0}
+                \State return;
+            \EndIf\\
+            \State parentIndex $\gets$ \large{$\frac{childIndex - 1}{2}$};
+            \If{heap[childIndex] < heap[parentIndex]}
+                \State swap(heap[childIndex], heap[parentIndex]);
+                \State siftUp(patentIndex);
+            \EndIf
+
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+\begin{operation}
+    \hypertarget{sd}{}
+    Операция sift down в куче нужна,
+    чтобы восстановить указанные в определении свойства кучи для i-ого элемента и всех его детей.
+    \begin{enumerate}
+        \item Мы берём i-ый элемент и проверяем, что его левый ребёнок - $2\cdot i + 1$ - существует.
+        \item Если он не существует, то завершаем алгоритм.
+        \item Если он существует, то выбираем наибольший из существующих двух детей и меняем местами с $heap[i]$.
+        \item Повторяем пункт 1 для изменённого ребёнка.
+    \end{enumerate}
+
+    \begin{algorithmic}[0]
+        \Function{siftDown}{parentIndex}
+        \State leftChildIndex $\gets$ parentIndex$\cdot 2 + 1$;
+        \If{lefChildIndex $\ge$ heapSize}
+            \State return;
+        \EndIf\\
+        \State rightChildIndex $\gets$ parentIndex$\cdot 2 + 2$;
+        \State swapChildIndex $\gets$ leftChildIndex;
+        \If{rightChildIndex < heapSize AND heap[leftChildIndex] < heap[rightChildIndex]}
+            \State swapChildIndex $\gets$ rightChildIndex;
+        \EndIf\\
+
+        \If{heap[swapChildIndex] < heap[parentIndex]}
+            \State swap(heap[swapChildIndex], heap[parentIndex]);
+            \State siftDown(swapChildIndex);
+        \EndIf
+
+        \EndFunction
+    \end{algorithmic}
+\end{operation}
+
+
