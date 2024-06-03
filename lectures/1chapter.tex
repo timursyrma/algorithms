@@ -1,0 +1,350 @@
+\section{Динамические структуры данных}
+
+\subsection{Стек}
+
+\begin{definicion}
+	Стек - структура данных, представляющая из себя упорядоченный набор элементов, в которой добавление новых элементов и удаление существующих производится с одного конца, называемого вершиной стека. Важно, первым из стека удаляется элемент, который был помещен туда последним. В стеке реализуется стратегия «последним вошел — первым вышел» (last-in, first-out — LIFO).
+\end{definicion}
+
+	Рассмотрим операции стека :
+\begin{enumerate}
+	\item \begin{definicion}
+			  Push - операция добавления элемента стек.
+	      \end{definicion}
+	\item \begin{definicion}
+			  Pop - операция удаления элемента, находящегося на вершине стека.
+		  \end{definicion}
+	\item \begin{definicion}
+			  Empty - проверка стека на наличие в нем элементов.
+		  \end{definicion}
+	\item \begin{definicion}
+			  Peek - операция, показывающая элемент с вершины стека.
+	      \end{definicion}
+\end{enumerate}
+Реализация стека на n элементов рассходует $O(n)$ памяти, так как нам требуется память только для хранения элементов. Каждая операция будет работаеть за $O(1)$ времени.
+
+
+\subsubsection{Реализация на массиве}
+Заведем массив s на n элементов и переменную count, она нужна для отслежевания индекса элемента с вершины стека.\\
+
+Пример реализации на С++ :
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\State \textbf{bool} empty() \{
+
+		\State \hspace{1cm} \textbf{return} count == 0;
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{void} push(\textbf{int} val) \{
+
+		\State \hspace{1cm} count++;
+
+		\State \hspace{1cm} s[count] = val;
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{void} pop() \{
+
+		\State \hspace{1cm} \textbf{if} (!empty()) \
+
+		\State \hspace{2cm} count- -;
+
+		\State \hspace{1cm} \ \textbf{else} \
+
+		\State \hspace{2cm} \textbf{cout} << "Стек пуст";
+
+		\State \}
+
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\subsubsection{Реализация на связном списке}
+Для реализации на связном списке необходимо создать структуру, отвечающую за отдельный узел.\\
+
+Пример такой структуры :
+\begin{algorithm}
+	\begin{algorithmic}
+		\State\\
+		\textbf{struct} Node \{
+
+		\State \quad \textbf{int} val;
+
+		\State \quad Node *next;
+
+		\State \quad \textbf{Node}();
+
+		\State \quad \textbf{Node}(\textbf{int} val) \{ \textbf{this->val = val;} \}
+		\State
+
+		\}
+	\end{algorithmic}
+\end{algorithm}\\
+
+
+Каждый узел имеет два поля, первое отвечает за значение, хранящаяся в узле, второе - это указатель на следующий элемент стека.\\\\
+Полный пример на C++ :\\
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\State \textbf{struct} Stack \{
+
+		\State \hspace{1cm} Node *top;
+
+		\State \hspace{1cm} \textbf{Stack}() \{ top = \textbf{nullptr}; \}\\
+
+		\State \hspace{1cm} \textbf{void push}(\textbf{int} val) \{
+
+		\State \hspace{2cm} Node *node = \textbf{new} Node();
+
+		\State \hspace{2cm} node $\rightarrow$ val = val;
+
+		\State \hspace{2cm} node $\rightarrow$ next = top;
+
+		\State \hspace{2cm} top = node;
+
+		\State \hspace{1cm} \}\\
+
+		\State \hspace{1cm} \textbf{void pop}() \{
+
+		\State \hspace{2cm} \textbf{if} (top == \textbf{nullptr})
+
+		\State \hspace{3cm} \textbf{exit}(0);
+
+		\State \hspace{2cm} \textbf{else} \
+
+		\State \hspace{3cm} top = top $\rightarrow$ next;
+
+		\State \hspace{1cm} \}\\
+
+		\State \hspace{1cm} \textbf{int peek}() \{
+
+		\State \hspace{2cm} \textbf{if} (top != \textbf{nullptr})
+
+		\State \hspace{3cm} \textbf{return} top $\rightarrow$ val;
+
+		\State \hspace{2cm} \textbf{else}
+
+		\State \hspace{3cm} \textbf{exit}(1);
+
+		\State \hspace{1cm} \}\\
+
+		\State \hspace{1cm} \textbf{bool empty}() \
+
+		\State \hspace{2cm} \textbf{return} top == \textbf{nullptr};
+
+		\State \};
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\subsection{Очередь}
+\begin{definicion}
+	Очередь — это структура данных, добавление и удаление элементов в которой происходит путём операций push и pop соответственно. Притом первым из очереди удаляется элемент, который был помещен туда первым, то есть в очереди реализуется принцип «первым вошел — первым вышел» (first-in, first-out — FIFO). У очереди имеется голова (head) и хвост (tail). Когда элемент ставится в очередь, он занимает место в её хвосте. Из очереди всегда выводится элемент, который находится в ее голове.\\\\ Очередь поддерживает следующие операции:
+\end{definicion}
+
+\begin{enumerate}
+	\item \begin{definicion}
+			  Push - операция добавления элемента в очередь.
+	\end{definicion}
+	\item \begin{definicion}
+			  Pop - операция удаления элемента, находящегося в конце очереди.
+	\end{definicion}
+	\item \begin{definicion}
+			  Empty - проверка очереди на наличие в ней элементов.
+	\end{definicion}
+	\item \begin{definicion}
+			  Size - колличество элементов в очереди.
+	\end{definicion}
+\end{enumerate}
+\subsubsection{Реализация на массиве}
+По аналогии c реализацией стека на массиве, для очереди на n элементов выделим массив s размера n, также заведем две переменные tail и head, они будут отслежевать позиции, на которые мы будет добавлять и от куда будем удалять элементы.\\
+
+Пример операций очереди на массиве :
+\begin{algorithm}
+	\begin{algorithmic}
+
+		\State \textbf{int} size() \{
+
+		\State \hspace{1cm} \textbf{if} (head $>$ tail)
+
+		\State \hspace{2cm} \textbf{return} n - head - tail;
+
+		\State \hspace{1cm} \textbf{else}
+
+		\State \hspace{2cm} \textbf{return} tail - head;
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{bool} empty() \{
+
+		\State \hspace{1cm} \textbf{return} head == tail;
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{void} push(\textbf{int} val) \{
+
+		\State \hspace{1cm} \textbf{if} (size() $\neq$ n) \{
+
+		\State \hspace{2cm} s[tail] = val;
+
+		\State \hspace{2cm} tail = (++tail) \% n;
+
+		\State \hspace{1cm} \}
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{void} pop() \{
+
+		\State \hspace{1cm} \textbf{if} (empty())
+
+		\State \hspace{2cm} \textbf{return};
+
+		\State \hspace{1cm} \textbf{else} \{
+
+		\State \hspace{2cm} \textbf{int} x = s[head];
+
+		\State \hspace{2cm} head = (++head) \% n;
+
+		\State \hspace{1cm} \}
+
+		\State \}
+
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsubsection{Реализация на связном списке}
+Реализация на списке будет отличаться тем, что структура узла будет включать в себя еще одно поле prev, которое будет указателем на предыдущий элемент в очереди.\\
+
+
+\begin{algorithm}
+	\begin{algorithmic}
+
+		\State \textbf{struct} Node \{
+
+		\State \hspace{1cm} \textbf{int} val;
+
+		\State \hspace{1cm} Node *next, *prev;
+
+		\State \hspace{1cm} Node() \{\}
+
+		\State \hspace{1cm} Node(\textbf{int} val) \{
+
+		\State \hspace{2cm} this $\rightarrow$ val = val;
+
+		\State \hspace{2cm} this $\rightarrow$ prev = this $\rightarrow$ next = \textbf{NULL};
+
+		\State \hspace{1cm} \}
+
+		\State \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{struct} Queue \{
+
+		\State \hspace{1cm} Node *head, *tail;
+
+		\State \hspace{1cm} Queue() \{
+
+		\State \hspace{2cm} this $\rightarrow$ head = this $\rightarrow$ tail = \textbf{NULL};
+
+		\State \hspace{1cm} \}
+
+		\vspace{0.5cm}
+
+		\State \hspace{1cm} Node* push(\textbf{int} val) \{
+
+		\State \hspace{2cm} Node *ptr = \textbf{new} Node(val);
+
+		\State \hspace{2cm} ptr $\rightarrow$ next = head;
+
+		\State \hspace{2cm} \textbf{if} (head != \textbf{NULL})
+
+		\State \hspace{3cm} head $\rightarrow$ prev = ptr;
+
+		\State \hspace{2cm} \textbf{if} (tail == \textbf{NULL})
+
+		\State \hspace{3cm} tail = ptr;
+
+		\State \hspace{2cm} head = ptr;
+
+		\State \hspace{2cm} \textbf{return} ptr;
+
+		\State \hspace{1cm} \}
+
+		\vspace{0.5cm}
+
+		\State \hspace{1cm} \textbf{void} pop() \{
+
+		\State \hspace{2cm} \textbf{if} (tail == \textbf{NULL})
+
+		\State \hspace{3cm} \textbf{return};
+
+		\State \hspace{2cm} Node *ptr = tail $\rightarrow$ prev;
+
+		\State \hspace{2cm} \textbf{if} (ptr != \textbf{NULL})
+
+		\State \hspace{3cm} ptr $\rightarrow$ next = \textbf{NULL};
+
+		\State \hspace{2cm} \textbf{else}
+
+		\State \hspace{3cm} head = \textbf{NULL};
+
+		\State \hspace{2cm} \textbf{delete} tail;
+
+		\State \hspace{2cm} tail = ptr;
+
+		\State \hspace{1cm} \}
+
+		\vspace{0.5cm}
+
+		\State \textbf{int} size() \{
+
+		\State \hspace{1cm} \textbf{if} (head $>$ tail)
+
+		\State \hspace{2cm} \textbf{return} n - head - tail;
+
+		\State \hspace{1cm} \textbf{else}
+
+		\State \hspace{2cm} \textbf{return} tail - head;
+
+		\State \}
+
+		\vspace{0.5cm}
+		\State \hspace{1cm} \textbf{bool} empty()\{
+
+		\State \hspace{2cm} \textbf{return} size();
+
+		\State \hspace{1cm} \}
+
+		\State \};
+
+	\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Динамический массив}
+\begin{definicion}
+	Динамический массив - массив, главным отличием, которого является возможность рассширения по ходу использования.
+
+	Примером динамического массива в C++ является vector. При инициализации vector по-умолчанию начальный размер равен 0. Стратегия расширения проста: при попытке записи в массив нового элемента в момент полного заполнения памяти происходит увеличение размера в 2 раза. При удалении элементов уменьшение размера массива никогда не происходит.
+
+\end{definicion}
